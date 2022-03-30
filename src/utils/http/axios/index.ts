@@ -2,7 +2,6 @@
 // The axios configuration can be changed according to the project, just change the file, other files can be left unchanged
 
 import type { AxiosResponse } from 'axios';
-import { clone } from 'lodash-es';
 import type { RequestOptions, Result } from '/#/axios';
 import type { AxiosTransform, CreateAxiosOptions } from './axiosTransform';
 import { VAxios } from './Axios';
@@ -16,8 +15,6 @@ import { setObjToUrlParams, deepMerge } from '/@/utils';
 import { useErrorLogStoreWithOut } from '/@/store/modules/errorLog';
 import { useI18n } from '/@/hooks/web/useI18n';
 import { joinTimestamp, formatRequestDate } from './helper';
-import { useUserStoreWithOut } from '/@/store/modules/user';
-import { AxiosRetry } from '/@/utils/http/axios/axiosRetry';
 
 const globSetting = useGlobSetting();
 const urlPrefix = globSetting.urlPrefix;
@@ -64,9 +61,6 @@ const transform: AxiosTransform = {
     switch (code) {
       case ResultEnum.TIMEOUT:
         timeoutMsg = t('sys.api.timeoutMessage');
-        const userStore = useUserStoreWithOut();
-        userStore.setToken(undefined);
-        userStore.logout(true);
         break;
       default:
         if (message) {
@@ -142,7 +136,7 @@ const transform: AxiosTransform = {
     const token = getToken();
     if (token && (config as Recordable)?.requestOptions?.withToken !== false) {
       // jwt token
-      (config as Recordable).headers.Authorization = options.authenticationScheme
+      config.headers.Authorization = options.authenticationScheme
         ? `${options.authenticationScheme} ${token}`
         : token;
     }
@@ -159,7 +153,7 @@ const transform: AxiosTransform = {
   /**
    * @description: 响应错误处理
    */
-  responseInterceptorsCatch: (axiosInstance: AxiosResponse, error: any) => {
+  responseInterceptorsCatch: (error: any) => {
     const { t } = useI18n();
     const errorLogStore = useErrorLogStoreWithOut();
     errorLogStore.addAjaxErrorInfo(error);
@@ -186,18 +180,10 @@ const transform: AxiosTransform = {
         return Promise.reject(error);
       }
     } catch (error) {
-      throw new Error(error as unknown as string);
+      throw new Error(error);
     }
 
     checkStatus(error?.response?.status, msg, errorMessageMode);
-
-    // 添加自动重试机制 保险起见 只针对GET请求
-    const retryRequest = new AxiosRetry();
-    const { isOpenRetry } = config.requestOptions.retryRequest;
-    config.method?.toUpperCase() === RequestEnum.GET &&
-      isOpenRetry &&
-      // @ts-ignore
-      retryRequest.retry(axiosInstance, error);
     return Promise.reject(error);
   },
 };
@@ -218,7 +204,7 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
         // 如果是form-data格式
         // headers: { 'Content-Type': ContentTypeEnum.FORM_URLENCODED },
         // 数据处理方式
-        transform: clone(transform),
+        transform,
         // 配置项，下面的选项都可以在独立的接口请求中覆盖
         requestOptions: {
           // 默认将prefix 添加到url
@@ -243,11 +229,6 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
           ignoreCancelToken: true,
           // 是否携带token
           withToken: true,
-          retryRequest: {
-            isOpenRetry: true,
-            count: 5,
-            waitTime: 100,
-          },
         },
       },
       opt || {},

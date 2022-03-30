@@ -1,10 +1,23 @@
 {
   "typescript.tsdk": "./node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
   "volar.tsPlugin": true,
   "volar.tsPluginStatus": false,
-  "npm.packageManager": "pnpm",
+  //===========================================
+  //============= Editor ======================
+  //===========================================
+  "explorer.openEditors.visible": 0,
   "editor.tabSize": 2,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "diffEditor.ignoreTrimWhitespace": false,
+  //===========================================
+  //============= Other =======================
+  //===========================================
+  "breadcrumbs.enabled": true,
+  "open-in-browser.default": "chrome",
+  //===========================================
+  //============= files =======================
+  //===========================================
   "files.eol": "\n",
   "search.exclude": {
     "**/node_modules": true,
@@ -55,10 +68,16 @@
     "**/yarn.lock": true
   },
   "stylelint.enable": true,
-  "stylelint.validate": ["css", "less", "postcss", "scss", "vue", "sass"],
+  "stylelint.packageManager": "yarn",
+  "liveServer.settings.donotShowInfoMsg": true,
+  "telemetry.enableCrashReporter": false,
+  "workbench.settings.enableNaturalLanguageSearch": false,
   "path-intellisense.mappings": {
     "/@/": "${workspaceRoot}/src"
   },
+  "prettier.requireConfig": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "workbench.sideBar.location": "left",
   "[javascriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
@@ -88,8 +107,7 @@
   },
   "[vue]": {
     "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": true,
-      "source.fixAll.stylelint": true
+      "source.fixAll.eslint": false
     }
   },
   "i18n-ally.localesPaths": ["src/locales/lang"],
@@ -132,8 +150,6 @@
     "lintstagedrc",
     "brotli",
     "tailwindcss",
-    "sider",
-    "pnpm",
-    "antd"
+    "sider"
   ]
 }

@@ -1,6 +1,6 @@
 import { isObject, isString } from '/@/utils/is';
 
-const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
+const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm';
 
 export function joinTimestamp<T extends boolean>(
   join: boolean,
@@ -27,8 +27,7 @@ export function formatRequestDate(params: Recordable) {
   }
 
   for (const key in params) {
-    const format = params[key]?.format ?? null;
-    if (format && typeof format === 'function') {
+    if (params[key] && params[key]._isAMomentObject) {
       params[key] = params[key].format(DATE_TIME_FORMAT);
     }
     if (isString(key)) {
@@ -36,7 +35,7 @@ export function formatRequestDate(params: Recordable) {
       if (value) {
         try {
           params[key] = isString(value) ? value.trim() : value;
-        } catch (error: any) {
+        } catch (error) {
           throw new Error(error);
         }
       }

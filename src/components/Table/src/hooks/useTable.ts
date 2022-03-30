@@ -68,7 +68,7 @@ export function useTable(tableProps?: Props): [
     getForm: () => FormActionType;
   } = {
     reload: async (opt?: FetchParams) => {
-      return await getTableInstance().reload(opt);
+      getTableInstance().reload(opt);
     },
     setProps: (props: Partial<BasicTableProps>) => {
       getTableInstance().setProps(props);
@@ -122,8 +122,8 @@ export function useTable(tableProps?: Props): [
     updateTableData: (index: number, key: string, value: any) => {
       return getTableInstance().updateTableData(index, key, value);
     },
-    deleteTableDataRecord: (rowKey: string | number | string[] | number[]) => {
-      return getTableInstance().deleteTableDataRecord(rowKey);
+    deleteTableDataRecord: (record: Recordable | Recordable[]) => {
+      return getTableInstance().deleteTableDataRecord(record);
     },
     insertTableDataRecord: (record: Recordable | Recordable[], index?: number) => {
       return getTableInstance().insertTableDataRecord(record, index);
@@ -152,14 +152,8 @@ export function useTable(tableProps?: Props): [
     expandAll: () => {
       getTableInstance().expandAll();
     },
-    expandRows: (keys: string[]) => {
-      getTableInstance().expandRows(keys);
-    },
     collapseAll: () => {
       getTableInstance().collapseAll();
-    },
-    scrollTo: (pos: string) => {
-      getTableInstance().scrollTo(pos);
     },
   };
 

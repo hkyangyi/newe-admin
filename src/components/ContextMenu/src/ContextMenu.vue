@@ -60,11 +60,9 @@
         const top = body.clientHeight < y + menuHeight ? y - menuHeight : y;
         return {
           ...styles,
-          position: 'absolute',
           width: `${width}px`,
           left: `${left + 1}px`,
           top: `${top + 1}px`,
-          zIndex: 9999,
         };
       });
 
@@ -126,11 +124,15 @@
         }
         const { items } = props;
         return (
-          <div class={prefixCls}>
-            <Menu inlineIndent={12} mode="vertical" ref={wrapRef} style={unref(getStyle)}>
-              {renderMenuItem(items)}
-            </Menu>
-          </div>
+          <Menu
+            inlineIndent={12}
+            mode="vertical"
+            class={prefixCls}
+            ref={wrapRef}
+            style={unref(getStyle)}
+          >
+            {renderMenuItem(items)}
+          </Menu>
         );
       };
     },
@@ -176,25 +178,22 @@
     margin: 0;
     list-style: none;
     background-color: @component-background;
-    border: 1px solid rgb(0 0 0 / 8%);
+    border: 1px solid rgba(0, 0, 0, 0.08);
     border-radius: 0.25rem;
-    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 10%),
-      0 1px 5px 0 rgb(0 0 0 / 6%);
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.1),
+      0 1px 5px 0 rgba(0, 0, 0, 0.06);
     background-clip: padding-box;
     user-select: none;
 
-    &__item {
-      margin: 0 !important;
-    }
     .item-style();
 
     .ant-divider {
-      margin: 0;
+      margin: 0 0;
     }
 
     &__popup {
       .ant-divider {
-        margin: 0;
+        margin: 0 0;
       }
 
       .item-style();

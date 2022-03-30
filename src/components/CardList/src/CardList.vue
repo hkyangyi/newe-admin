@@ -1,9 +1,10 @@
 <template>
   <div class="p-2">
-    <div class="p-4 mb-2 bg-white">
+    <div class="bg-white mb-2 p-4">
       <BasicForm @register="registerForm" />
     </div>
-    <div class="p-2 bg-white">
+    {{ sliderProp.width }}
+    <div class="bg-white p-2">
       <List
         :grid="{ gutter: 5, xs: 1, sm: 2, md: 4, lg: 4, xl: 6, xxl: grid }"
         :data-source="data"
@@ -38,7 +39,7 @@
                   <Image :src="item.imgs[0]" />
                 </div>
               </template>
-              <template #actions>
+              <template class="ant-card-actions" #actions>
                 <!--              <SettingOutlined key="setting" />-->
                 <EditOutlined key="edit" />
                 <Dropdown
@@ -166,7 +167,7 @@
     pageSize.value = pz;
     fetch();
   }
-  function pageSizeChange(_current, size) {
+  function pageSizeChange(current, size) {
     pageSize.value = size;
     fetch();
   }

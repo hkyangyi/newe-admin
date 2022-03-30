@@ -97,7 +97,7 @@
       }
     }
 
-    & span:last-child {
+    & span:nth-child(2) {
       &:hover {
         color: @error-color;
       }

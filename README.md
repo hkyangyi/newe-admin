@@ -1,29 +1,18 @@
 
-## Install and use
-
-- Get the project code
-
-```bash
-git clone https://github.com/anncwb/vue-vben-admin.git
-```
-
 - Installation dependencies
 
-```bash
-cd vue-vben-admin
-
-pnpm install
+yarn install
 
 ```
 
 - run
 
 ```bash
-pnpm serve
+yarn serve
 ```
 
 - build
 
 ```bash
-pnpm build
+yarn build
 ```

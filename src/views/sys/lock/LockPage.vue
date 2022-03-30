@@ -5,7 +5,23 @@
   >
     <div
       :class="`${prefixCls}__unlock`"
-      class="absolute top-0 left-1/2 flex pt-5 h-16 items-center justify-center sm:text-md xl:text-xl text-white flex-col cursor-pointer transform translate-x-1/2"
+      class="
+        absolute
+        top-0
+        left-1/2
+        flex
+        pt-5
+        h-16
+        items-center
+        justify-center
+        sm:text-md
+        xl:text-xl
+        text-white
+        flex-col
+        cursor-pointer
+        transform
+        translate-x-1/2
+      "
       @click="handleShowForm(false)"
       v-show="showDate"
     >
@@ -194,7 +210,7 @@
       display: flex;
       width: 100%;
       height: 100%;
-      background-color: rgb(0 0 0 / 50%);
+      background-color: rgba(0, 0, 0, 0.5);
       backdrop-filter: blur(8px);
       justify-content: center;
       align-items: center;

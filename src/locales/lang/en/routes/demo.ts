@@ -67,7 +67,6 @@ export default {
     feat: 'Page Function',
     icon: 'Icon',
     tabs: 'Tabs',
-    tabDetail: 'Tab Detail',
     sessionTimeout: 'Session Timeout',
     print: 'Print',
     contextMenu: 'Context Menu',
@@ -92,7 +91,6 @@ export default {
     breadcrumb: 'Breadcrumbs',
     breadcrumbFlat: 'Flat Mode',
     breadcrumbFlatDetail: 'Flat mode details',
-    requestDemo: 'Retry request demo',
 
     breadcrumbChildren: 'Level mode',
     breadcrumbChildrenDetail: 'Level mode detail',
@@ -196,6 +194,5 @@ export default {
     editCellTable: 'Editable cell',
     editRowTable: 'Editable row',
     authColumn: 'Auth column',
-    resizeParentHeightTable: 'resizeParentHeightTable',
   },
 };
