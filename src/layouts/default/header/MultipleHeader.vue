@@ -21,7 +21,7 @@
 
   const HEADER_HEIGHT = 48;
 
-  const TABS_HEIGHT = 32;
+  const TABS_HEIGHT = 36;
   export default defineComponent({
     name: 'LayoutMultipleHeader',
     components: { LayoutHeader, MultipleTabs },

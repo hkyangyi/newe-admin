@@ -143,7 +143,7 @@ const sysRoute = {
   redirect: '/system/account',
   meta: {
     icon: 'ion:settings-outline',
-    title: 'routes.demo.system.moduleName',
+    title: '系统管理1',
   },
   children: [
     {
@@ -235,6 +235,46 @@ const linkRoute = {
   ],
 };
 
+const NeweSysRoute = {
+  path: '/newesys/system',
+  name: 'NewesysSystem',
+  component: 'LAYOUT',
+  redirect: '/newesys/system/menu',
+  meta: {
+    icon: 'ion:settings-outline',
+    title: '系统管理',
+  },
+  children: [
+    {
+      path: 'menu',
+      name: 'NewesysSystemMenu',
+      meta: {
+        title: '菜单管理',
+        ignoreKeepAlive: true,
+      },
+      component: '/newesys/system/menu/index',
+    },
+    {
+      path: 'dept',
+      name: 'NewesysSystemDept',
+      meta: {
+        title: '部门管理',
+        ignoreKeepAlive: true,
+      },
+      component: '/newesys/system/dept/index',
+    },
+    {
+      path: 'changePassword',
+      name: 'NewesysSystemChangePassword',
+      meta: {
+        title: '修改密码',
+        ignoreKeepAlive: true,
+      },
+      component: '/newesys/system/password/index',
+    },
+  ],
+};
+
 export default [
   {
     url: '/basic-api/getMenuList',
@@ -254,11 +294,11 @@ export default [
       switch (id) {
         case '1':
           dashboardRoute.redirect = dashboardRoute.path + '/' + dashboardRoute.children[0].path;
-          menu = [dashboardRoute, authRoute, levelRoute, sysRoute, linkRoute];
+          menu = [dashboardRoute, authRoute, levelRoute, sysRoute, linkRoute, NeweSysRoute];
           break;
         case '2':
           dashboardRoute.redirect = dashboardRoute.path + '/' + dashboardRoute.children[1].path;
-          menu = [dashboardRoute, authRoute, levelRoute, linkRoute];
+          menu = [dashboardRoute, authRoute, levelRoute, linkRoute, NeweSysRoute];
           break;
         default:
           menu = [];
