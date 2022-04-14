@@ -3,7 +3,7 @@
  */
 import moment from 'moment';
 
-const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm';
+const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 const DATE_FORMAT = 'YYYY-MM-DD ';
 
 export function formatToDateTime(
@@ -15,6 +15,10 @@ export function formatToDateTime(
 
 export function formatToDate(date: moment.MomentInput = undefined, format = DATE_FORMAT): string {
   return moment(date).format(format);
+}
+
+export function formatDate(date: number): string {
+  return moment(date).format('YYYY-MM-DD HH:mm:ss');
 }
 
 export const dateUtil = moment;

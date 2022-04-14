@@ -8,7 +8,7 @@ import { VAxios } from './Axios';
 import { checkStatus } from './checkStatus';
 import { useGlobSetting } from '/@/hooks/setting';
 import { useMessage } from '/@/hooks/web/useMessage';
-import { RequestEnum, ResultEnum, ContentTypeEnum } from '/@/enums/httpEnum';
+import { RequestEnum, ResultNewe, ContentTypeEnum } from '/@/enums/httpEnum';
 import { isString } from '/@/utils/is';
 import { getToken } from '/@/utils/auth';
 import { setObjToUrlParams, deepMerge } from '/@/utils';
@@ -16,7 +16,13 @@ import { useErrorLogStoreWithOut } from '/@/store/modules/errorLog';
 import { useI18n } from '/@/hooks/web/useI18n';
 import { joinTimestamp, formatRequestDate } from './helper';
 
-const globSetting = useGlobSetting();
+const globSetting: Readonly<GlobConfig> = {
+  title: 'newe',
+  apiUrl: 'http://localhost:10000',
+  shortName: 'localhost',
+  urlPrefix: '/api',
+  uploadUrl: 'http://localhost:10000',
+};
 const urlPrefix = globSetting.urlPrefix;
 const { createMessage, createErrorModal } = useMessage();
 
@@ -51,10 +57,8 @@ const transform: AxiosTransform = {
     const { code, result, message } = data;
 
     // 这里逻辑可以根据项目进行修改
-    const hasSuccess = data && Reflect.has(data, 'code') && code === ResultEnum.SUCCESS;
-    console.log(hasSuccess, result);
+    const hasSuccess = data && Reflect.has(data, 'code') && code === ResultNewe.SUCCESS;
     if (hasSuccess) {
-      console.log(hasSuccess, result);
       return result;
     }
 
@@ -139,7 +143,7 @@ const transform: AxiosTransform = {
     const token = getToken();
     if (token && (config as Recordable)?.requestOptions?.withToken !== false) {
       // jwt token
-      config.headers.Authorization = options.authenticationScheme
+      config.headers.Token = options.authenticationScheme
         ? `${options.authenticationScheme} ${token}`
         : token;
     }

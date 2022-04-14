@@ -15,7 +15,7 @@
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { formSchema } from './menu.data';
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
-  import { MenusAdd, MenusEdit, MenusGetList } from '/@/api/newesys/menu';
+  import { MenusAdd, MenusEdit, MenusGetList } from './menu.api';
   //import { getMenuList } from '/@/api/demo/system';
 
   export default defineComponent({
@@ -39,7 +39,7 @@
         setFieldsValue({
           ...data.record,
         });
-        const treeData = await MenusGetList();
+        const treeData = await MenusGetList({});
         updateSchema({
           field: 'pid',
           componentProps: { treeData },

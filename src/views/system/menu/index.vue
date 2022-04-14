@@ -35,7 +35,7 @@
 
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   //import { getMenuList } from '/@/api/demo/system';
-  import { MenusGetList, MenusDel } from '/@/api/newesys/menu';
+  import { MenusGetList, MenusDel } from './menu.api';
   import { useDrawer } from '/@/components/Drawer';
   import MenuDrawer from './MenuDrawer.vue';
 
