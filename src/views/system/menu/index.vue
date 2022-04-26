@@ -27,11 +27,11 @@
         />
       </template>
     </BasicTable>
-    <MenuDrawer @register="registerDrawer" @success="handleSuccess" />
+    <MenuDrawer @register="registerDrawer" @success="handleSuccess" :tdata="testd" />
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent, nextTick, toRaw } from 'vue';
+  import { defineComponent, nextTick, toRaw, ref } from 'vue';
 
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   //import { getMenuList } from '/@/api/demo/system';
@@ -110,6 +110,9 @@
         nextTick(expandAll);
       }
 
+      const testd = ref<any[]>([]);
+      testd.value = [{ id: 1 }, { id: 2 }];
+
       return {
         registerTable,
         registerDrawer,
@@ -119,6 +122,7 @@
         handleSuccess,
         onFetchSuccess,
         handleCreateChildren,
+        testd,
       };
     },
   });

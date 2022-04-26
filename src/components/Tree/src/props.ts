@@ -35,6 +35,11 @@ export const basicProps = {
     type: [String, Number] as PropType<string | number>,
     default: '',
   },
+  // 高亮搜索值，仅高亮具体匹配值（通过title）值为true时使用默认色值，值为#xxx时使用此值替代且高亮开启
+  highlight: {
+    type: [Boolean, String] as PropType<Boolean | String>,
+    default: false,
+  },
   defaultExpandAll: propTypes.bool.def(false),
 
   replaceFields: {
@@ -77,13 +82,8 @@ export const basicProps = {
   filterFn: {
     type: Function as PropType<
       (searchValue: any, node: TreeItem, replaceFields: ReplaceFields) => boolean
-    >,
+      >,
     default: null,
-  },
-  // 高亮搜索值，仅高亮具体匹配值（通过title）值为true时使用默认色值，值为#xxx时使用此值替代且高亮开启
-  highlight: {
-    type: [Boolean, String] as PropType<Boolean | String>,
-    default: false,
   },
   // 搜索完成时自动展开结果
   expandOnSearch: propTypes.bool.def(false),

@@ -4,23 +4,32 @@
   </BasicModal>
 </template>
 <script lang="ts">
-  import { defineComponent, ref, computed, unref } from 'vue';
+  import { defineComponent, ref, computed, unref, toRaw } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
-  import { formSchema } from './dept.data';
+  import { DepartModelForm } from './depart.data';
+  import { saveOrUpdateDepart } from './depart.api';
 
-  import { getDeptList } from '/@/api/demo/system';
   export default defineComponent({
-    name: 'DeptModal',
+    name: 'DepartModal',
     components: { BasicModal, BasicForm },
+    props: {
+      tData: {
+        type: Array,
+      },
+    },
     emits: ['success', 'register'],
-    setup(_, { emit }) {
+    setup(props, { emit }) {
       const isUpdate = ref(true);
+      const rowId = ref('');
 
-      const [registerForm, { resetFields, setFieldsValue, updateSchema, validate }] = useForm({
+      const [registerForm, { setFieldsValue, updateSchema, resetFields, validate }] = useForm({
         labelWidth: 100,
-        schemas: formSchema,
+        schemas: DepartModelForm,
         showActionButtonGroup: false,
+        actionColOptions: {
+          span: 23,
+        },
       });
 
       const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
@@ -28,16 +37,18 @@
         setModalProps({ confirmLoading: false });
         isUpdate.value = !!data?.isUpdate;
 
+        let treeData = toRaw(props.tData);
+        updateSchema({
+          field: 'pid',
+          componentProps: { treeData },
+        });
+
         if (unref(isUpdate)) {
+          rowId.value = data.record.id;
           setFieldsValue({
             ...data.record,
           });
         }
-        const treeData = await getDeptList();
-        updateSchema({
-          field: 'parentDept',
-          componentProps: { treeData },
-        });
       });
 
       const getTitle = computed(() => (!unref(isUpdate) ? '新增部门' : '编辑部门'));
@@ -48,8 +59,10 @@
           setModalProps({ confirmLoading: true });
           // TODO custom api
           console.log(values);
+          const res = await saveOrUpdateDepart(values, unref(isUpdate));
+          console.log(res);
           closeModal();
-          emit('success');
+          emit('success', { isUpdate: unref(isUpdate), values: { ...values, id: rowId.value } });
         } finally {
           setModalProps({ confirmLoading: false });
         }

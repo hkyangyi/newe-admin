@@ -21,8 +21,15 @@
   export default defineComponent({
     name: 'MenuDrawer',
     components: { BasicDrawer, BasicForm },
+    props: {
+      tdata: {
+        type: Array,
+      },
+    },
     emits: ['success', 'register'],
-    setup(_, { emit }) {
+    setup(props, { emit }) {
+      console.log(props);
+      console.log(props.tdata);
       const isUpdate = ref(true);
 
       const [registerForm, { resetFields, setFieldsValue, updateSchema, validate }] = useForm({
