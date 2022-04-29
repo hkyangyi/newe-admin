@@ -52,9 +52,10 @@ const transform: AxiosTransform = {
 
     // 这里逻辑可以根据项目进行修改
     const hasSuccess = data && Reflect.has(data, 'code') && code === ResultEnum.SUCCESS;
-    console.log(hasSuccess, result);
     if (hasSuccess) {
-      console.log(hasSuccess, result);
+      if (options.BaseBack) {
+        createMessage.success(message);
+      }
       return result;
     }
 
@@ -232,6 +233,8 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
           ignoreCancelToken: true,
           // 是否携带token
           withToken: true,
+          //是否同意成功提示
+          BaseBack: false,
         },
       },
       opt || {},

@@ -4,7 +4,7 @@
       <BasicTree
         ref="basicTree"
         checkable
-        :fieldNames="{ title: 'name', key: 'id', children: 'children' }"
+        :replaceFields="{ title: 'name', key: 'id', children: 'children' }"
         :treeData="treeData"
         :checkedKeys="checkedKeys"
         :selectedKeys="selectedKeys"
@@ -13,15 +13,11 @@
         style="height: 500px; overflow: auto"
         @check="onCheck"
         @expand="onExpand"
-      >
-        <template #title="{ name, key }">
-          <span>{{ name }} {{ key }}</span>
-        </template>
-      </BasicTree>
+      />
     </template>
     <Empty v-else description="无可配置部门权限" />
-    <div class="j-box-bottom-button offset-20" style="margin-top: 30px">
-      <div class="j-box-bottom-button-float">
+    <div style="margin-top: 30px">
+      <div class="btnls">
         <a-dropdown :trigger="['click']" placement="topCenter">
           <template #overlay>
             <a-menu>
@@ -42,9 +38,9 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, ref, nextTick } from 'vue';
+  import { defineComponent, ref, nextTick, watch, onMounted } from 'vue';
   import { BasicTree, TreeItem } from '/@/components/Tree/index';
-  import { queryRoleTreeList } from './depart.api';
+  import { queryRoleTreeList, DepartGetRules, DepartSaveRules } from './depart.api';
   import { Spin, Empty, Tree, Dropdown, Menu } from 'ant-design-vue';
   export default defineComponent({
     name: 'DepartRules',
@@ -61,16 +57,15 @@
       data: { type: Object, default: () => ({}) },
       rootTreeData: { type: Array, default: () => [] },
     },
-    emits: ['success'],
-    setup(props, { emit }) {
-      console.log(props, emit);
+    setup(props) {
       const loading = ref<boolean>(false);
       const treeData = ref<TreeItem[]>([]);
       async function loadData() {
-        console.log(1111111111111111111111111);
         let td = await queryRoleTreeList({});
         treeData.value = td;
-        console.log(treeData);
+        let res = await DepartGetRules({ id: props.data.id });
+        checkedKeys.value = res;
+        lastCheckedKeys.value = res;
         await nextTick();
         toggleExpandAll(true);
       }
@@ -81,6 +76,7 @@
       const expandedKeys = ref<Array<any>>([]);
       const selectedKeys = ref<Array<any>>([]);
       const checkedKeys = ref<Array<any>>([]);
+      const lastCheckedKeys = ref<Array<any>>([]);
       const checkStrictly = ref(true);
 
       // tree勾选复选框事件
@@ -120,8 +116,33 @@
       }
 
       async function onSubmit() {
-        console.log('submit');
+        try {
+          loading.value = true;
+          let menus = checkedKeys.value.join(',');
+          // let last = lastCheckedKeys.value.join(',');
+          let params = { id: props.data.id, menus: menus };
+          let res = await DepartSaveRules(params);
+          console.log(res);
+        } finally {
+          loading.value = false;
+        }
       }
+      onMounted(() => {
+        watch(
+          () => props.data,
+          async () => {
+            try {
+              loading.value = true;
+              let res = await DepartGetRules({ id: props.data.id });
+              console.log(res);
+              checkedKeys.value = res;
+              lastCheckedKeys.value = res;
+            } finally {
+              loading.value = false;
+            }
+          },
+        );
+      });
 
       return {
         loading,

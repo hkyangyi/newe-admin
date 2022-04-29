@@ -15,7 +15,7 @@
 </template>
 <script lang="ts">
   import { defineComponent, ref, unref, h } from 'vue';
-  import { CodeEditor, JsonPreview, MODE } from '/@/components/CodeEditor';
+  import { CodeEditor, JsonPreview } from '/@/components/CodeEditor';
   import { PageWrapper } from '/@/components/Page';
   import { Radio, Space, Modal } from 'ant-design-vue';
 

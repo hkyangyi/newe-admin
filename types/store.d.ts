@@ -31,13 +31,29 @@ export interface ErrorLogInfo {
 }
 
 export interface UserInfo {
-  userId: string | number;
+  createTime: number;
+  departId: string;
+  files: string;
+  headimgurl: string;
+  id: string;
+  idcard: string;
+  mp: string;
+  nickname: string;
+  orgCode: string;
+  password: string;
+  realname: string;
+  sex: number;
+  status: number;
+  uid: string;
+  updateTime: number;
   username: string;
-  realName: string;
-  avatar: string;
-  desc?: string;
-  homePath?: string;
-  roles: RoleInfo[];
+  // userId: string | number;
+  // username: string;
+  // realName: string;
+  // avatar: string;
+  // desc?: string;
+  // homePath?: string;
+  // roles: RoleInfo[];
 }
 
 export interface BeforeMiniState {

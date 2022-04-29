@@ -6,11 +6,12 @@
       </a-button>
     </a-space>
     <a-tree
+      v-if="treeData.length"
       show-line
       :treeData="treeData"
       :fieldNames="{ title: 'name', key: 'key', children: 'children' }"
       :selectedKeys="selectedKeys"
-      :expandedKeys="expandedKeys"
+      :defaultExpandAll="true"
       @select="onSelect"
     >
       <template #title="{ name, key }">
@@ -75,12 +76,9 @@
       });
       function setSelectedKey(key: string, data?: any) {
         console.log(data);
-        // if (key){
-        //   selectedKeys.value = [key];
-        // }
         selectedKeys.value = [key];
         if (data) {
-          if (data.dataRef?.children != null) {
+          if (data.dataRef.children != null) {
             expandedKeys.value = [key];
           }
           emit('select', data);
@@ -110,7 +108,6 @@
         onSelect,
         selectedKeys,
         tdata,
-        expandedKeys,
       };
     },
   });

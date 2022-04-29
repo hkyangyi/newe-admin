@@ -1,28 +1,18 @@
-import { unref } from 'vue';
 import { defHttp } from '/@/utils/http/axios';
 import { useMessage } from '/@/hooks/web/useMessage';
 
 const { createConfirm } = useMessage();
 
 export enum Api {
-  queryDepartTreeSync = '/sys/sysDepart/queryDepartTreeSync',
-  save = '/sys/sysDepart/add',
-  delete = '/sys/sysDepart/delete',
-  deleteBatch = '/sys/sysDepart/deleteBatch',
-  exportXlsUrl = '/sys/sysDepart/exportXls',
-  importExcelUrl = '/sys/sysDepart/importExcel',
-
-  queryDepartPermission = '/sys/permission/queryDepartPermission',
-  saveDepartPermission = '/sys/permission/saveDepartPermission',
-
-  dataRule = '/sys/sysDepartPermission/datarule',
-
   getCurrentUserDeparts = '/sys/user/getCurrentUserDeparts',
   selectDepart = '/sys/selectDepart',
   add = '/api/admin/sys/deptadd',
   edit = '/api/admin/sys/deptedit',
   getlist = '/api/admin/sys/deptgetlist',
+  del = '/api/admin/sys/deptdel',
   roleTreeList = '/api/admin/sys/megetlist',
+  ruleget = '/api/admin/sys/deptgetrules',
+  rulesave = '/api/admin/sys/deptrulessave',
 }
 
 /**
@@ -44,13 +34,14 @@ export const saveOrUpdateDepart = (params, isUpdate) => {
 /**
  * 批量删除部门角色
  */
-export const deleteBatchDepart = (params, confirm = false) => {
+export const DelDepart = (params, confirm = false) => {
   return new Promise((resolve, reject) => {
     const doDelete = () => {
-      resolve(defHttp.delete({ url: Api.deleteBatch, params }, { joinParamsToUrl: true }));
+      resolve(defHttp.delete({ url: Api.del, params }, { joinParamsToUrl: true }));
     };
     if (confirm) {
       createConfirm({
+        title: '确定删除吗？',
         iconType: 'warning',
         onOk: () => doDelete(),
         onCancel: () => reject(),
@@ -66,33 +57,13 @@ export const deleteBatchDepart = (params, confirm = false) => {
  */
 export const queryRoleTreeList = (params: object) =>
   defHttp.get({ url: Api.roleTreeList, params: params });
+
 /**
  * 查询部门权限
  */
-export const queryDepartPermission = (params?) =>
-  defHttp.get({ url: Api.queryDepartPermission, params });
+export const DepartGetRules = (params?) => defHttp.get({ url: Api.ruleget, params });
 /**
  * 保存部门权限
  */
-export const saveDepartPermission = (params) =>
-  defHttp.post({ url: Api.saveDepartPermission, params });
-
-/**
- *  查询部门数据权限列表
- */
-export const queryDepartDataRule = (functionId, departId, params?) => {
-  const url = `${Api.dataRule}/${unref(functionId)}/${unref(departId)}`;
-  return defHttp.get({ url, params });
-};
-/**
- * 保存部门数据权限
- */
-export const saveDepartDataRule = (params) => defHttp.post({ url: Api.dataRule, params });
-/**
- * 获取登录用户部门信息
- */
-export const getUserDeparts = (params?) => defHttp.get({ url: Api.getCurrentUserDeparts, params });
-/**
- * 切换选择部门
- */
-export const selectDepart = (params?) => defHttp.put({ url: Api.selectDepart, params });
+export const DepartSaveRules = (params) =>
+  defHttp.post({ url: Api.rulesave, params }, { BaseBack: true });

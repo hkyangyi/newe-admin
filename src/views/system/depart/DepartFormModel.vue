@@ -1,8 +1,11 @@
 <template>
   <Spin :spinning="loading">
     <BasicForm @register="registerForm" />
-    <div class="j-box-bottom-button offset-20" style="margin-top: 30px">
-      <div class="j-box-bottom-button-float">
+    <div style="margin-top: 30px">
+      <div class="btnls">
+        <a-button type="primary" danger preIcon="ant-design:delete-outlined" @click="onDelete">
+          删除
+        </a-button>
         <a-button type="primary" preIcon="ant-design:save-filled" @click="onSubmit">保存</a-button>
       </div>
     </div>
@@ -13,7 +16,7 @@
   import { defineComponent, ref, toRaw, unref, watch, onMounted } from 'vue';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { DepartModelForm } from './depart.data';
-  import { saveOrUpdateDepart } from './depart.api';
+  import { saveOrUpdateDepart, DelDepart } from './depart.api';
   import { Spin } from 'ant-design-vue';
   export default defineComponent({
     name: 'DepartFormModal',
@@ -42,18 +45,39 @@
       async function onSubmit() {
         console.log('submit');
         try {
+          loading.value = true;
           const values = await validate();
           // TODO custom api
           console.log(values);
           const res = await saveOrUpdateDepart(values, unref(isUpdate));
           console.log(res);
+          loading.value = false;
           emit('success');
         } finally {
+          loading.value = false;
+        }
+      }
+
+      async function onDelete() {
+        loading.value = true;
+        try {
+          const values = await validate();
+          // TODO custom api
+          console.log(values);
+          const res = await DelDepart(values, true);
+          console.log(res);
+          loading.value = false;
+          emit('success');
+        } finally {
+          loading.value = false;
         }
       }
       onMounted(() => {
         // 禁用字段
-        //updateSchema([{ field: 'pid', componentProps: { disabled: true } }]);
+        updateSchema([
+          { field: 'pid', componentProps: { disabled: true } },
+          { field: 'code', show: true },
+        ]);
         // 更新 父部门 选项
         watch(
           () => props.rootTreeData,
@@ -85,7 +109,18 @@
         model,
         onSubmit,
         loading,
+        onDelete,
       };
     },
   });
 </script>
+<style lang="less">
+  .btnls {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    button {
+      margin-left: 10px;
+    }
+  }
+</style>

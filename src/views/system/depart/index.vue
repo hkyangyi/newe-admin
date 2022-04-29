@@ -12,7 +12,7 @@
                 <DepartFormModel :data="departData" :rootTreeData="rootTreeData" @success="onSuccess" />
               </a-tab-pane>
               <a-tab-pane tab="部门权限" key="role-info">
-                <DepartRules />
+                <DepartRules :data="departData" />
               </a-tab-pane>
             </a-tabs>
             <div v-show="departData == null" style="padding-top: 40px">

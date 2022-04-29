@@ -38,10 +38,10 @@
         isUpdate.value = !!data?.isUpdate;
 
         let treeData = toRaw(props.tData);
-        updateSchema({
-          field: 'pid',
-          componentProps: { treeData },
-        });
+        updateSchema([
+          { field: 'pid', componentProps: { treeData, disabled: false } },
+          { field: 'code', show: false },
+        ]);
 
         if (unref(isUpdate)) {
           rowId.value = data.record.id;

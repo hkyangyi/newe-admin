@@ -1,22 +1,17 @@
 <template>
   <Dropdown placement="bottomLeft" :overlayClassName="`${prefixCls}-dropdown-overlay`">
     <span :class="[prefixCls, `${prefixCls}--${theme}`]" class="flex">
-      <img :class="`${prefixCls}__header`" :src="getUserInfo.avatar" />
+      <img :class="`${prefixCls}__header`" :src="getUserInfo.headimgurl" />
       <span :class="`${prefixCls}__info hidden md:block`">
         <span :class="`${prefixCls}__name  `" class="truncate">
-          {{ getUserInfo.realName }}
+          {{ getUserInfo.nickname }}
         </span>
       </span>
     </span>
 
     <template #overlay>
       <Menu @click="handleMenuClick">
-        <MenuItem
-          key="doc"
-          :text="t('layout.header.dropdownItemDoc')"
-          icon="ion:document-text-outline"
-          v-if="getShowDoc"
-        />
+        <MenuItem key="doc" text="newe.top" icon="ion:document-text-outline" v-if="getShowDoc" />
         <MenuDivider v-if="getShowDoc" />
         <MenuItem
           v-if="getUseLockPage"
@@ -75,8 +70,8 @@
       const userStore = useUserStore();
 
       const getUserInfo = computed(() => {
-        const { realName = '', avatar, desc } = userStore.getUserInfo || {};
-        return { realName, avatar: avatar || headerImg, desc };
+        const { nickname, headimgurl } = userStore.getUserInfo || {};
+        return { nickname, headimgurl: headimgurl || headerImg };
       });
 
       const [register, { openModal }] = useModal();

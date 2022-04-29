@@ -23,6 +23,7 @@ export interface RequestOptions {
   ignoreCancelToken?: boolean;
   // Whether to send token in header
   withToken?: boolean;
+  BaseBack?: boolean;
 }
 
 export interface Result<T = any> {

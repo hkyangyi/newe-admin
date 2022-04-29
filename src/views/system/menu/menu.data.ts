@@ -86,7 +86,7 @@ export const formSchema: FormSchema[] = [
   {
     label: 'id',
     field: 'id',
-    component: 'InputNumber',
+    component: 'Input',
     show: false,
   },
   {
