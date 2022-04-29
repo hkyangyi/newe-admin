@@ -25,9 +25,9 @@ export const DepartTreeSync = (params?) => defHttp.get({ url: Api.getlist, param
  */
 export const saveOrUpdateDepart = (params, isUpdate) => {
   if (isUpdate) {
-    return defHttp.put({ url: Api.edit, params });
+    return defHttp.put({ url: Api.edit, params }, { BaseBack: true });
   } else {
-    return defHttp.post({ url: Api.add, params });
+    return defHttp.post({ url: Api.add, params }, { BaseBack: true });
   }
 };
 
