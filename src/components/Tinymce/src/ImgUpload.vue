@@ -3,8 +3,7 @@
     <Upload
       name="file"
       multiple
-      @change="handleChange"
-      :action="uploadUrl"
+      :customRequest="SelImages"
       :showUploadList="false"
       accept=".jpg,.jpeg,.gif,.png,.webp"
     >
@@ -21,7 +20,7 @@
   import { useDesign } from '/@/hooks/web/useDesign';
   import { useGlobSetting } from '/@/hooks/setting';
   import { useI18n } from '/@/hooks/web/useI18n';
-
+  import { Upimages } from '/@/api/sys/upload';
   export default defineComponent({
     name: 'TinymceImageUpload',
     components: { Upload },
@@ -69,7 +68,21 @@
         }
       }
 
+      const SelImages = (field) => {
+        let name = field.file.name;
+        emit('uploading', name);
+        Upimages(field, (res) => {
+          console.log(res);
+        })
+          .then((res) => {
+            emit('done', name, res.url);
+          })
+          .catch((res) => {
+            console.log(res);
+          });
+      };
       return {
+        SelImages,
         prefixCls,
         handleChange,
         uploadUrl,
